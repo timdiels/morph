@@ -69,28 +69,15 @@ void Species::run_jobs(string output_path, int top_k, Cache& cache, bool output_
 			}
 		}
 
-		// generate correlations
-		{
-			// distinct union all left over genes of interest
-			std::vector<size_type> all_genes_of_interest;
-			for (auto& goi : gois_indices) {
-				all_genes_of_interest.insert(all_genes_of_interest.end(), goi.begin(), goi.end());
-			}
-			sort(all_genes_of_interest.begin(), all_genes_of_interest.end());
-			auto duplicate_begin = unique(all_genes_of_interest.begin(), all_genes_of_interest.end());
-			all_genes_of_interest.erase(duplicate_begin, all_genes_of_interest.end());
+		for (int i=0; i < gois_indices.size(); i++) {
+			auto& goi = gois_indices.at(i);
 
-			// generate the correlations we need
-			gene_expression->generate_gene_correlations(all_genes_of_interest);
-			gene_expression->dispose_expression_data();
-		}
+			// generate correlations
+			gene_expression->generate_gene_correlations(goi);
 
-		// clustering
-		for (auto clustering_ : gene_expression_description["clusterings"]) {
-			auto clustering = make_shared<Clustering>(gene_expression, data_root, clustering_, cache);
-			int goi_index=0;
-			for (int i=0; i < gois_indices.size(); i++) {
-				auto& goi = gois_indices.at(i);
+			// clustering
+			for (auto clustering_ : gene_expression_description["clusterings"]) {
+				auto clustering = make_shared<Clustering>(gene_expression, data_root, clustering_, cache);
 				cout << get_name() << ", " << gois.at(i).get_name() << ", " << gene_expression->get_name() << ", " << clustering->get_name();
 				cout.flush();
 				if (goi.size() < 5) {
@@ -115,11 +102,11 @@ void Species::run_jobs(string output_path, int top_k, Cache& cache, bool output_
 						result.best_ranking = std::move(ranking);
 					}
 				}
-				goi_index++;
 			}
 		}
 
 		gene_expression->dispose_correlations();
+		gene_expression->dispose_expression_data();
 	}
 
 	GeneDescriptions gene_descriptions(prepend_path(data_root, species["gene_descriptions"].as<string>()));
