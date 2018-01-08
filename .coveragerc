@@ -1,3 +1,5 @@
 [run]
-omit = deep_genome/morph/tests/*
+omit =
+    morphbio/tests/*
+    venv/*
 
