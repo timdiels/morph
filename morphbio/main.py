@@ -19,15 +19,18 @@
 Command line interface (CLI)
 '''
 
+from pathlib import Path
+from textwrap import dedent
+import logging
+
+from pytil import logging as logging_
+import click
+import pandas as pd
+import yaml
+
 from morphbio import __version__
 from morphbio.algorithm import morph
-from pathlib import Path
-from pytil import logging as logging_
-from textwrap import dedent
-import click
-import yaml
-import pandas as pd
-import logging
+
 
 _logger = logging.getLogger(__name__)
 

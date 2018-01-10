@@ -19,13 +19,15 @@
 Application programmer interface (API)
 '''
 
+import logging
+
 from pytil.various import join_multiline
 from varbio import clean, parse
 from varbio.correlation import pearson_df
-import pandas as pd
-import logging
-import yaml
 import attr
+import pandas as pd
+import yaml
+
 
 # Note: if performance is an issue, profile the code to find the bottleneck. If
 # pandas is the problem, (partly) use numpy instead. Note that
