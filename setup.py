@@ -15,12 +15,13 @@ setup_args = dict(
     keywords='bioinformatics coexpression guilt-by-association',
     packages=find_packages(),
     install_requires=[
-        'click',
-        'numpy',
-        'pandas',
-        'plumbum',
-        'more_itertools',
-        'chicken_turtle_util',
+        'click==6.*',
+        'numpy~=1.14',
+        'pandas~=0.22',
+        'pyyaml~=3.12',
+        'varbio==2.*',
+        'attrs==17.*',
+        'pytil[logging,various]==7.*',
     ],
     extras_require={
         'dev': [
